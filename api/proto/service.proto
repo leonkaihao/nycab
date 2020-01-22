@@ -1,0 +1,39 @@
+syntax = "proto3";
+package nycab;
+
+option (gogoproto.goproto_registration) = true;
+
+import "gogo.proto";
+
+service NYCab {
+  // Creates an Order
+  rpc DoGetCabPickupCount(GetCabPickupCountRequest)
+      returns (GetCabPickupCountResponse);
+  rpc DoDeletePickupCache(DeletePickupCacheRequest)
+      returns (DeletePickupCacheResponse);
+}
+
+message GetCabPickupCountRequest {
+  int64 startDate = 1;
+  int64 endDate = 2;
+  repeated string medallions = 3;
+}
+
+message MedallionPickupInfo {
+  string medallion = 1;
+  bool found = 2;
+  int64 count = 3;
+}
+
+message GetCabPickupCountResponse {
+  int64 startDate = 1;
+  int64 endDate = 2;
+  repeated MedallionPickupInfo info = 3;
+}
+
+message DeletePickupCacheRequest {
+  int64 startDate = 1;
+  int64 endDate = 2;
+}
+
+message DeletePickupCacheResponse { int64 count = 1; }

@@ -1,0 +1,6 @@
+syntax = "proto3";
+package nycab;
+
+option (gogoproto.goproto_registration) = true;
+
+import "gogo.proto";

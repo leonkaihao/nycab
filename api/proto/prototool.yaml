@@ -1,0 +1,41 @@
+# if starting from scratch in development, run "make init example" to get/build the .gitignored files
+protoc:
+
+  version: 3.6.1
+  includes:
+    - ./external
+lint:
+  group: uber2
+  rules:
+    remove:
+      - ENUM_FIELD_PREFIXES
+      - ENUM_NAMES_CAMEL_CASE
+      - ENUM_FIELD_PREFIXES_EXCEPT_MESSAGE
+      - FILE_OPTIONS_REQUIRE_CSHARP_NAMESPACE
+      - FILE_OPTIONS_REQUIRE_JAVA_MULTIPLE_FILES
+      - FILE_OPTIONS_REQUIRE_JAVA_OUTER_CLASSNAME
+      - FILE_OPTIONS_REQUIRE_JAVA_PACKAGE
+      - MESSAGES_HAVE_COMMENTS_EXCEPT_REQUEST_RESPONSE_TYPES
+      - MESSAGES_HAVE_COMMENTS
+  # run "prototool lint --list-linters" to see the currently configured linters
+  # add "exclude_ids" to ignore specific linter IDs for all files
+generate:
+  go_options:
+    import_path: gitlab.com/sdce/exchange/proto
+    extra_modifiers:
+    # gogo.proto: github.com/gogo/protobuf/gogoproto
+  plugins:
+    - name: gogofaster
+      type: gogo
+      flags: plugins=grpc
+      output: ./_generated/go
+      # output: ../_generated/go
+    # - name: yarpc-go
+    #   type: gogo
+    #   output: ../../gen/proto/go
+    #   # note ../../gen/proto/java is .gitignored
+    # - name: java
+    #   output: ../../gen/proto/java
+    # - name: grpc-gateway
+    #   type: go
+    #   output: ../../gen/proto/go
