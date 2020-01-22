@@ -1,0 +1,92 @@
+---
+swagger: "2.0"
+info:
+  description: "No description"
+  version: "1.0.0"
+  title: "nycab"
+  contact: {}
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+basePath: /v1
+
+paths:
+  /cabs/pickups/count/cache:
+    delete:
+      description: "Method to clear the cache"
+      parameters:
+        - name: startDate
+          in: query
+          required: false
+          type: string
+          format: date
+          description: "Clear from date inclusive"
+        - name: endDate
+          in: query
+          required: false
+          type: string
+          format: date
+          description: "Clear to date inclusive"
+      responses:
+        '200':
+          description: OK
+
+  /cabs/pickups/count:
+    get:
+      description: "Query how many trips a particular cab (medallion) has made given a particular pickup date."
+      parameters:
+        - name: medallions
+          in: query
+          required: true
+          type: array
+          items:
+            type: string
+        - name: date
+          in: query
+          required: true
+          type: string
+          format: date
+        - name: refresh
+          description: "Enforce to get latest data, NOT from cache."
+          in: query
+          required: false
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: "#/definitions/getCabsPickupsCountResponse"
+definitions:
+  errResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+  getCabsPickupsCountResponse:
+    type: object
+    properties: 
+      code: 
+        type: integer
+      result:
+        type: array
+        items:
+          $ref: "#/definitions/cabPickupsCount"
+
+  cabPickupsCount:
+    type: object
+    properties:
+      medallions:
+        description: "car id"
+        type: string
+      found:
+        description: "does this car exist"
+        type: boolean
+      count:
+        description: "found times in query"
+        type: integer
+
+         
