@@ -8,8 +8,8 @@ import (
 
 	errors "github.com/go-openapi/errors"
 	runtime "github.com/go-openapi/runtime"
-	middleware "github.com/go-openapi/runtime/middleware"
 
+	"github.com/leonkaihao/nycab/api/swagger/handler"
 	"github.com/leonkaihao/nycab/api/swagger/restapi/operations"
 )
 
@@ -28,17 +28,14 @@ func configureAPI(api *operations.NycabAPI) http.Handler {
 	//
 	// Example:
 	// api.Logger = log.Printf
-
+	hdlr := handler.NewHandler()
 	api.JSONConsumer = runtime.JSONConsumer()
 
 	api.JSONProducer = runtime.JSONProducer()
 
-	api.DeleteCabsPickupsCountCacheHandler = operations.DeleteCabsPickupsCountCacheHandlerFunc(func(params operations.DeleteCabsPickupsCountCacheParams) middleware.Responder {
-		return middleware.NotImplemented("operation .DeleteCabsPickupsCountCache has not yet been implemented")
-	})
-	api.GetCabsPickupsCountHandler = operations.GetCabsPickupsCountHandlerFunc(func(params operations.GetCabsPickupsCountParams) middleware.Responder {
-		return middleware.NotImplemented("operation .GetCabsPickupsCount has not yet been implemented")
-	})
+	api.DeleteCabsPickupsCountCacheHandler = operations.DeleteCabsPickupsCountCacheHandlerFunc(hdlr.DeleteCache)
+
+	api.GetCabsPickupsCountHandler = operations.GetCabsPickupsCountHandlerFunc(hdlr.GetPickupCount)
 
 	api.ServerShutdown = func() {}
 
