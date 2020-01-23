@@ -1,22 +1,95 @@
 package handler
 
 import (
+	"context"
+	"time"
+
+	"github.com/leonkaihao/nycab/api/swagger/mapper"
+
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/leonkaihao/nycab/api/swagger/models"
+	pb "github.com/leonkaihao/nycab/api/proto/nycab"
 	"github.com/leonkaihao/nycab/api/swagger/restapi/operations"
+	"github.com/opentracing/opentracing-go/log"
 )
 
 func (h *handler) GetPickupCount(params operations.GetCabsPickupsCountParams) middleware.Responder {
-	result := []*models.CabPickupsCount{}
-	for _, d := range params.Medallions {
-		result = append(result, &models.CabPickupsCount{
-			Medallions: d,
-		})
+	if h.rpc == nil {
+		return PreConditionFailedError("cannot connect to rpc service")
 	}
+	if h.cch == nil {
+		return PreConditionFailedError("cannot connect to cache service")
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
+	defer cancel()
+
+	date, medallions, refresh := params.Date, params.Medallions, params.Refresh
+	dateInt := time.Time(date).UnixNano()
+	var (
+		infoArr  []*pb.MedallionPickupInfo
+		notFound []string
+		err      error
+	)
+	if refresh == nil || *refresh == false {
+		infoArr, notFound, err = h.getPickupCountFromCache(ctx, medallions, time.Time(date))
+		if err != nil {
+			return InternalServerError(err.Error())
+		}
+		if len(notFound) != 0 { // if some medallions were not found in cache, search from DB
+			infoArrRPC, err := h.getPickupCountFromRPC(ctx, notFound, time.Time(date))
+			if err != nil {
+				return InternalServerError(err.Error())
+			}
+			infoArr = append(infoArr, infoArrRPC...)
+		}
+	} else {
+		infoArr, err = h.getPickupCountFromRPC(ctx, medallions, time.Time(date))
+		if err != nil {
+			return InternalServerError(err.Error())
+		}
+	}
+	respJSON := mapper.MapPickupCountResponseToJSON(medallions, &pb.GetCabPickupCountResponse{
+		DayTime: dateInt,
+		Info:    infoArr,
+	})
 	return &operations.GetCabsPickupsCountOK{
-		Payload: &models.GetCabsPickupsCountResponse{
-			Code:   1,
-			Result: result,
-		},
+		Payload: respJSON,
 	}
+}
+
+// getPickupCountFromCache search cache, return found and not found item
+func (h *handler) getPickupCountFromCache(ctx context.Context, medallions []string, date time.Time) (info []*pb.MedallionPickupInfo, medallionsNotFound []string, err error) {
+	info, err = h.cch.GetDataMulti(medallions, date)
+	if err != nil {
+		return nil, medallions, err
+	}
+	medallionsMap := map[string]bool{}
+	for _, medallion := range medallions {
+		medallionsMap[medallion] = true
+	}
+	for _, elem := range info {
+		delete(medallionsMap, elem.Medallion)
+	}
+	for key := range medallionsMap {
+		medallionsNotFound = append(medallionsNotFound, key)
+	}
+	return info, medallionsNotFound, nil
+}
+
+// getPickupCountFromRPC search RPC, return found item and update cache
+func (h *handler) getPickupCountFromRPC(ctx context.Context, medallions []string, date time.Time) ([]*pb.MedallionPickupInfo, error) {
+	resp, err := h.rpc.NYCab.DoGetCabPickupCount(ctx, &pb.GetCabPickupCountRequest{
+		DayTime:    date.UnixNano(),
+		Medallions: medallions})
+	if err != nil {
+		return nil, err
+	}
+	// update cache concurrently
+	go func() {
+		err = h.cch.WithMultiData(resp.GetInfo(), date)
+		if err != nil {
+			log.Error(err)
+		}
+	}()
+	return resp.GetInfo(), nil
 }
