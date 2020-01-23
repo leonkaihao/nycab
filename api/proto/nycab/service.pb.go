@@ -27,9 +27,8 @@ var _ = math.Inf
 const _ = proto.GoGoProtoPackageIsVersion2 // please upgrade the proto package
 
 type GetCabPickupCountRequest struct {
-	StartDate  int64    `protobuf:"varint,1,opt,name=startDate,proto3" json:"startDate,omitempty"`
-	EndDate    int64    `protobuf:"varint,2,opt,name=endDate,proto3" json:"endDate,omitempty"`
-	Medallions []string `protobuf:"bytes,3,rep,name=medallions,proto3" json:"medallions,omitempty"`
+	DayTime    int64    `protobuf:"varint,1,opt,name=dayTime,proto3" json:"dayTime,omitempty"`
+	Medallions []string `protobuf:"bytes,2,rep,name=medallions,proto3" json:"medallions,omitempty"`
 }
 
 func (m *GetCabPickupCountRequest) Reset()         { *m = GetCabPickupCountRequest{} }
@@ -65,16 +64,9 @@ func (m *GetCabPickupCountRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_GetCabPickupCountRequest proto.InternalMessageInfo
 
-func (m *GetCabPickupCountRequest) GetStartDate() int64 {
+func (m *GetCabPickupCountRequest) GetDayTime() int64 {
 	if m != nil {
-		return m.StartDate
-	}
-	return 0
-}
-
-func (m *GetCabPickupCountRequest) GetEndDate() int64 {
-	if m != nil {
-		return m.EndDate
+		return m.DayTime
 	}
 	return 0
 }
@@ -86,77 +78,16 @@ func (m *GetCabPickupCountRequest) GetMedallions() []string {
 	return nil
 }
 
-type MedallionPickupInfo struct {
-	Medallion string `protobuf:"bytes,1,opt,name=medallion,proto3" json:"medallion,omitempty"`
-	Found     bool   `protobuf:"varint,2,opt,name=found,proto3" json:"found,omitempty"`
-	Count     int64  `protobuf:"varint,3,opt,name=count,proto3" json:"count,omitempty"`
-}
-
-func (m *MedallionPickupInfo) Reset()         { *m = MedallionPickupInfo{} }
-func (m *MedallionPickupInfo) String() string { return proto.CompactTextString(m) }
-func (*MedallionPickupInfo) ProtoMessage()    {}
-func (*MedallionPickupInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a0b84a42fa06f626, []int{1}
-}
-func (m *MedallionPickupInfo) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MedallionPickupInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MedallionPickupInfo.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalTo(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MedallionPickupInfo) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MedallionPickupInfo.Merge(m, src)
-}
-func (m *MedallionPickupInfo) XXX_Size() int {
-	return m.Size()
-}
-func (m *MedallionPickupInfo) XXX_DiscardUnknown() {
-	xxx_messageInfo_MedallionPickupInfo.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MedallionPickupInfo proto.InternalMessageInfo
-
-func (m *MedallionPickupInfo) GetMedallion() string {
-	if m != nil {
-		return m.Medallion
-	}
-	return ""
-}
-
-func (m *MedallionPickupInfo) GetFound() bool {
-	if m != nil {
-		return m.Found
-	}
-	return false
-}
-
-func (m *MedallionPickupInfo) GetCount() int64 {
-	if m != nil {
-		return m.Count
-	}
-	return 0
-}
-
 type GetCabPickupCountResponse struct {
-	StartDate int64                  `protobuf:"varint,1,opt,name=startDate,proto3" json:"startDate,omitempty"`
-	EndDate   int64                  `protobuf:"varint,2,opt,name=endDate,proto3" json:"endDate,omitempty"`
-	Info      []*MedallionPickupInfo `protobuf:"bytes,3,rep,name=info,proto3" json:"info,omitempty"`
+	DayTime int64                  `protobuf:"varint,1,opt,name=dayTime,proto3" json:"dayTime,omitempty"`
+	Info    []*MedallionPickupInfo `protobuf:"bytes,2,rep,name=info,proto3" json:"info,omitempty"`
 }
 
 func (m *GetCabPickupCountResponse) Reset()         { *m = GetCabPickupCountResponse{} }
 func (m *GetCabPickupCountResponse) String() string { return proto.CompactTextString(m) }
 func (*GetCabPickupCountResponse) ProtoMessage()    {}
 func (*GetCabPickupCountResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a0b84a42fa06f626, []int{2}
+	return fileDescriptor_a0b84a42fa06f626, []int{1}
 }
 func (m *GetCabPickupCountResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -185,16 +116,9 @@ func (m *GetCabPickupCountResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_GetCabPickupCountResponse proto.InternalMessageInfo
 
-func (m *GetCabPickupCountResponse) GetStartDate() int64 {
+func (m *GetCabPickupCountResponse) GetDayTime() int64 {
 	if m != nil {
-		return m.StartDate
-	}
-	return 0
-}
-
-func (m *GetCabPickupCountResponse) GetEndDate() int64 {
-	if m != nil {
-		return m.EndDate
+		return m.DayTime
 	}
 	return 0
 }
@@ -206,141 +130,34 @@ func (m *GetCabPickupCountResponse) GetInfo() []*MedallionPickupInfo {
 	return nil
 }
 
-type DeletePickupCacheRequest struct {
-	StartDate int64 `protobuf:"varint,1,opt,name=startDate,proto3" json:"startDate,omitempty"`
-	EndDate   int64 `protobuf:"varint,2,opt,name=endDate,proto3" json:"endDate,omitempty"`
-}
-
-func (m *DeletePickupCacheRequest) Reset()         { *m = DeletePickupCacheRequest{} }
-func (m *DeletePickupCacheRequest) String() string { return proto.CompactTextString(m) }
-func (*DeletePickupCacheRequest) ProtoMessage()    {}
-func (*DeletePickupCacheRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a0b84a42fa06f626, []int{3}
-}
-func (m *DeletePickupCacheRequest) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *DeletePickupCacheRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_DeletePickupCacheRequest.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalTo(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *DeletePickupCacheRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DeletePickupCacheRequest.Merge(m, src)
-}
-func (m *DeletePickupCacheRequest) XXX_Size() int {
-	return m.Size()
-}
-func (m *DeletePickupCacheRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_DeletePickupCacheRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_DeletePickupCacheRequest proto.InternalMessageInfo
-
-func (m *DeletePickupCacheRequest) GetStartDate() int64 {
-	if m != nil {
-		return m.StartDate
-	}
-	return 0
-}
-
-func (m *DeletePickupCacheRequest) GetEndDate() int64 {
-	if m != nil {
-		return m.EndDate
-	}
-	return 0
-}
-
-type DeletePickupCacheResponse struct {
-	Count int64 `protobuf:"varint,1,opt,name=count,proto3" json:"count,omitempty"`
-}
-
-func (m *DeletePickupCacheResponse) Reset()         { *m = DeletePickupCacheResponse{} }
-func (m *DeletePickupCacheResponse) String() string { return proto.CompactTextString(m) }
-func (*DeletePickupCacheResponse) ProtoMessage()    {}
-func (*DeletePickupCacheResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a0b84a42fa06f626, []int{4}
-}
-func (m *DeletePickupCacheResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *DeletePickupCacheResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_DeletePickupCacheResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalTo(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *DeletePickupCacheResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DeletePickupCacheResponse.Merge(m, src)
-}
-func (m *DeletePickupCacheResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *DeletePickupCacheResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_DeletePickupCacheResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_DeletePickupCacheResponse proto.InternalMessageInfo
-
-func (m *DeletePickupCacheResponse) GetCount() int64 {
-	if m != nil {
-		return m.Count
-	}
-	return 0
-}
-
 func init() {
 	proto.RegisterType((*GetCabPickupCountRequest)(nil), "nycab.GetCabPickupCountRequest")
 	golang_proto.RegisterType((*GetCabPickupCountRequest)(nil), "nycab.GetCabPickupCountRequest")
-	proto.RegisterType((*MedallionPickupInfo)(nil), "nycab.MedallionPickupInfo")
-	golang_proto.RegisterType((*MedallionPickupInfo)(nil), "nycab.MedallionPickupInfo")
 	proto.RegisterType((*GetCabPickupCountResponse)(nil), "nycab.GetCabPickupCountResponse")
 	golang_proto.RegisterType((*GetCabPickupCountResponse)(nil), "nycab.GetCabPickupCountResponse")
-	proto.RegisterType((*DeletePickupCacheRequest)(nil), "nycab.DeletePickupCacheRequest")
-	golang_proto.RegisterType((*DeletePickupCacheRequest)(nil), "nycab.DeletePickupCacheRequest")
-	proto.RegisterType((*DeletePickupCacheResponse)(nil), "nycab.DeletePickupCacheResponse")
-	golang_proto.RegisterType((*DeletePickupCacheResponse)(nil), "nycab.DeletePickupCacheResponse")
 }
 
 func init() { proto.RegisterFile("service.proto", fileDescriptor_a0b84a42fa06f626) }
 func init() { golang_proto.RegisterFile("service.proto", fileDescriptor_a0b84a42fa06f626) }
 
 var fileDescriptor_a0b84a42fa06f626 = []byte{
-	// 336 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x52, 0xbf, 0x4e, 0xc2, 0x40,
-	0x18, 0xe7, 0xac, 0xa8, 0x7c, 0xc6, 0xe5, 0x70, 0x28, 0x84, 0x9c, 0xa4, 0x13, 0x53, 0x13, 0xf1,
-	0x0d, 0x84, 0xc4, 0x38, 0x68, 0xcc, 0x4d, 0x3a, 0x99, 0x6b, 0xf9, 0xc0, 0x46, 0xbc, 0xc3, 0xde,
-	0xd5, 0xc4, 0xd9, 0x17, 0xf0, 0x7d, 0x5c, 0x1c, 0x1d, 0x19, 0x1d, 0x0d, 0x7d, 0x11, 0xc3, 0xb5,
-	0x14, 0x12, 0xda, 0x45, 0xc7, 0xdf, 0xef, 0xbe, 0xfc, 0xfe, 0xe5, 0xe0, 0x48, 0x63, 0xfc, 0x12,
-	0x85, 0xe8, 0xcf, 0x62, 0x65, 0x14, 0xad, 0xcb, 0xd7, 0x50, 0x04, 0x6d, 0x98, 0xa8, 0x89, 0xca,
-	0x28, 0x2f, 0x06, 0xf7, 0x02, 0xcd, 0x40, 0x04, 0x37, 0x51, 0xf8, 0x98, 0xcc, 0x06, 0x2a, 0x91,
-	0x86, 0xe3, 0x73, 0x82, 0xda, 0xd0, 0x0e, 0x34, 0xb4, 0x11, 0xb1, 0x19, 0x0a, 0x83, 0x2e, 0xe9,
-	0x92, 0x9e, 0xc3, 0xd7, 0x04, 0x75, 0x61, 0x1f, 0xe5, 0xc8, 0xbe, 0xed, 0xd8, 0xb7, 0x15, 0xa4,
-	0x0c, 0xe0, 0x09, 0x47, 0x62, 0x3a, 0x8d, 0x94, 0xd4, 0xae, 0xd3, 0x75, 0x7a, 0x0d, 0xbe, 0xc1,
-	0x78, 0xf7, 0xd0, 0xbc, 0x5a, 0xa1, 0xcc, 0xf6, 0x52, 0x8e, 0xd5, 0xd2, 0xae, 0x38, 0xb2, 0x76,
-	0x0d, 0xbe, 0x26, 0xe8, 0x31, 0xd4, 0xc7, 0x2a, 0x91, 0x23, 0x6b, 0x76, 0xc0, 0x33, 0xb0, 0x64,
-	0xc3, 0x65, 0x64, 0xd7, 0xb1, 0x11, 0x32, 0xe0, 0xbd, 0x11, 0x68, 0x95, 0xb4, 0xd2, 0x33, 0x25,
-	0x35, 0xfe, 0xb9, 0x96, 0x0f, 0xbb, 0x91, 0x1c, 0x2b, 0x5b, 0xe8, 0xb0, 0xdf, 0xf6, 0xed, 0x98,
-	0x7e, 0x49, 0x13, 0x6e, 0xef, 0x3c, 0x0e, 0xee, 0x10, 0xa7, 0x68, 0x30, 0x0f, 0x21, 0xc2, 0x07,
-	0xfc, 0xe7, 0xb4, 0xde, 0x29, 0xb4, 0x4a, 0x34, 0xf3, 0x62, 0xc5, 0x18, 0x64, 0x63, 0x8c, 0xfe,
-	0x07, 0x81, 0xfa, 0xf5, 0xdd, 0x40, 0x04, 0xf4, 0x16, 0x9a, 0x43, 0xb5, 0xb5, 0x0b, 0x3d, 0xc9,
-	0x9b, 0x54, 0xfd, 0x83, 0x76, 0xb7, 0xfa, 0x20, 0x77, 0xb6, 0xca, 0x5b, 0xc1, 0x0a, 0xe5, 0xaa,
-	0x19, 0x0a, 0xe5, 0xca, 0x4e, 0xe7, 0x9d, 0xaf, 0x05, 0x23, 0xf3, 0x05, 0x23, 0x3f, 0x0b, 0x46,
-	0xde, 0x53, 0x56, 0xfb, 0x4c, 0x19, 0x99, 0xa7, 0xac, 0xf6, 0x9d, 0xb2, 0x5a, 0xb0, 0x67, 0x3f,
-	0xf1, 0xd9, 0x6f, 0x00, 0x00, 0x00, 0xff, 0xff, 0xcb, 0xec, 0x9b, 0x83, 0xe8, 0x02, 0x00, 0x00,
+	// 244 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x2d, 0x4e, 0x2d, 0x2a,
+	0xcb, 0x4c, 0x4e, 0xd5, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0xcd, 0xab, 0x4c, 0x4e, 0x4c,
+	0x92, 0xe2, 0x4a, 0xcf, 0x4f, 0xcf, 0x87, 0x08, 0x49, 0x71, 0xe7, 0xe6, 0xa7, 0xa4, 0xe6, 0x40,
+	0x38, 0x4a, 0x21, 0x5c, 0x12, 0xee, 0xa9, 0x25, 0xce, 0x89, 0x49, 0x01, 0x99, 0xc9, 0xd9, 0xa5,
+	0x05, 0xce, 0xf9, 0xa5, 0x79, 0x25, 0x41, 0xa9, 0x85, 0xa5, 0xa9, 0xc5, 0x25, 0x42, 0x12, 0x5c,
+	0xec, 0x29, 0x89, 0x95, 0x21, 0x99, 0xb9, 0xa9, 0x12, 0x8c, 0x0a, 0x8c, 0x1a, 0xcc, 0x41, 0x30,
+	0xae, 0x90, 0x1c, 0x17, 0x57, 0x6e, 0x6a, 0x4a, 0x62, 0x4e, 0x4e, 0x66, 0x7e, 0x5e, 0xb1, 0x04,
+	0x93, 0x02, 0xb3, 0x06, 0x67, 0x10, 0x92, 0x88, 0x52, 0x2a, 0x97, 0x24, 0x16, 0x53, 0x8b, 0x0b,
+	0xf2, 0xf3, 0x8a, 0x53, 0xf1, 0x18, 0xab, 0xc7, 0xc5, 0x92, 0x99, 0x97, 0x96, 0x0f, 0x36, 0x90,
+	0xdb, 0x48, 0x4a, 0x0f, 0xec, 0x76, 0x3d, 0x5f, 0x98, 0xb9, 0x10, 0xc3, 0x3c, 0xf3, 0xd2, 0xf2,
+	0x83, 0xc0, 0xea, 0x8c, 0x12, 0xb9, 0x58, 0xfd, 0x22, 0x9d, 0x13, 0x93, 0x84, 0x22, 0xb8, 0x84,
+	0x5d, 0xf2, 0x31, 0x6c, 0x14, 0x92, 0x87, 0x9a, 0x80, 0xcb, 0x87, 0x52, 0x0a, 0xb8, 0x15, 0x40,
+	0x1c, 0xeb, 0x24, 0x73, 0xe2, 0x91, 0x1c, 0xe3, 0x85, 0x47, 0x72, 0x8c, 0x0f, 0x1e, 0xc9, 0x31,
+	0x4e, 0x78, 0x2c, 0xc7, 0x70, 0xe0, 0xb1, 0x1c, 0xe3, 0x85, 0xc7, 0x72, 0x0c, 0x37, 0x1e, 0xcb,
+	0x31, 0x24, 0xb1, 0x81, 0x03, 0xd1, 0x18, 0x10, 0x00, 0x00, 0xff, 0xff, 0xda, 0x7e, 0x8a, 0x3a,
+	0x75, 0x01, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -357,7 +174,6 @@ const _ = grpc.SupportPackageIsVersion4
 type NYCabClient interface {
 	// Creates an Order
 	DoGetCabPickupCount(ctx context.Context, in *GetCabPickupCountRequest, opts ...grpc.CallOption) (*GetCabPickupCountResponse, error)
-	DoDeletePickupCache(ctx context.Context, in *DeletePickupCacheRequest, opts ...grpc.CallOption) (*DeletePickupCacheResponse, error)
 }
 
 type nYCabClient struct {
@@ -377,20 +193,10 @@ func (c *nYCabClient) DoGetCabPickupCount(ctx context.Context, in *GetCabPickupC
 	return out, nil
 }
 
-func (c *nYCabClient) DoDeletePickupCache(ctx context.Context, in *DeletePickupCacheRequest, opts ...grpc.CallOption) (*DeletePickupCacheResponse, error) {
-	out := new(DeletePickupCacheResponse)
-	err := c.cc.Invoke(ctx, "/nycab.NYCab/DoDeletePickupCache", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // NYCabServer is the server API for NYCab service.
 type NYCabServer interface {
 	// Creates an Order
 	DoGetCabPickupCount(context.Context, *GetCabPickupCountRequest) (*GetCabPickupCountResponse, error)
-	DoDeletePickupCache(context.Context, *DeletePickupCacheRequest) (*DeletePickupCacheResponse, error)
 }
 
 func RegisterNYCabServer(s *grpc.Server, srv NYCabServer) {
@@ -415,24 +221,6 @@ func _NYCab_DoGetCabPickupCount_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NYCab_DoDeletePickupCache_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeletePickupCacheRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(NYCabServer).DoDeletePickupCache(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/nycab.NYCab/DoDeletePickupCache",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NYCabServer).DoDeletePickupCache(ctx, req.(*DeletePickupCacheRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 var _NYCab_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "nycab.NYCab",
 	HandlerType: (*NYCabServer)(nil),
@@ -440,10 +228,6 @@ var _NYCab_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DoGetCabPickupCount",
 			Handler:    _NYCab_DoGetCabPickupCount_Handler,
-		},
-		{
-			MethodName: "DoDeletePickupCache",
-			Handler:    _NYCab_DoDeletePickupCache_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -465,19 +249,14 @@ func (m *GetCabPickupCountRequest) MarshalTo(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if m.StartDate != 0 {
+	if m.DayTime != 0 {
 		dAtA[i] = 0x8
 		i++
-		i = encodeVarintService(dAtA, i, uint64(m.StartDate))
-	}
-	if m.EndDate != 0 {
-		dAtA[i] = 0x10
-		i++
-		i = encodeVarintService(dAtA, i, uint64(m.EndDate))
+		i = encodeVarintService(dAtA, i, uint64(m.DayTime))
 	}
 	if len(m.Medallions) > 0 {
 		for _, s := range m.Medallions {
-			dAtA[i] = 0x1a
+			dAtA[i] = 0x12
 			i++
 			l = len(s)
 			for l >= 1<<7 {
@@ -489,45 +268,6 @@ func (m *GetCabPickupCountRequest) MarshalTo(dAtA []byte) (int, error) {
 			i++
 			i += copy(dAtA[i:], s)
 		}
-	}
-	return i, nil
-}
-
-func (m *MedallionPickupInfo) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MedallionPickupInfo) MarshalTo(dAtA []byte) (int, error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	if len(m.Medallion) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintService(dAtA, i, uint64(len(m.Medallion)))
-		i += copy(dAtA[i:], m.Medallion)
-	}
-	if m.Found {
-		dAtA[i] = 0x10
-		i++
-		if m.Found {
-			dAtA[i] = 1
-		} else {
-			dAtA[i] = 0
-		}
-		i++
-	}
-	if m.Count != 0 {
-		dAtA[i] = 0x18
-		i++
-		i = encodeVarintService(dAtA, i, uint64(m.Count))
 	}
 	return i, nil
 }
@@ -547,19 +287,14 @@ func (m *GetCabPickupCountResponse) MarshalTo(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if m.StartDate != 0 {
+	if m.DayTime != 0 {
 		dAtA[i] = 0x8
 		i++
-		i = encodeVarintService(dAtA, i, uint64(m.StartDate))
-	}
-	if m.EndDate != 0 {
-		dAtA[i] = 0x10
-		i++
-		i = encodeVarintService(dAtA, i, uint64(m.EndDate))
+		i = encodeVarintService(dAtA, i, uint64(m.DayTime))
 	}
 	if len(m.Info) > 0 {
 		for _, msg := range m.Info {
-			dAtA[i] = 0x1a
+			dAtA[i] = 0x12
 			i++
 			i = encodeVarintService(dAtA, i, uint64(msg.Size()))
 			n, err := msg.MarshalTo(dAtA[i:])
@@ -568,57 +303,6 @@ func (m *GetCabPickupCountResponse) MarshalTo(dAtA []byte) (int, error) {
 			}
 			i += n
 		}
-	}
-	return i, nil
-}
-
-func (m *DeletePickupCacheRequest) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *DeletePickupCacheRequest) MarshalTo(dAtA []byte) (int, error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	if m.StartDate != 0 {
-		dAtA[i] = 0x8
-		i++
-		i = encodeVarintService(dAtA, i, uint64(m.StartDate))
-	}
-	if m.EndDate != 0 {
-		dAtA[i] = 0x10
-		i++
-		i = encodeVarintService(dAtA, i, uint64(m.EndDate))
-	}
-	return i, nil
-}
-
-func (m *DeletePickupCacheResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *DeletePickupCacheResponse) MarshalTo(dAtA []byte) (int, error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	if m.Count != 0 {
-		dAtA[i] = 0x8
-		i++
-		i = encodeVarintService(dAtA, i, uint64(m.Count))
 	}
 	return i, nil
 }
@@ -638,11 +322,8 @@ func (m *GetCabPickupCountRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	if m.StartDate != 0 {
-		n += 1 + sovService(uint64(m.StartDate))
-	}
-	if m.EndDate != 0 {
-		n += 1 + sovService(uint64(m.EndDate))
+	if m.DayTime != 0 {
+		n += 1 + sovService(uint64(m.DayTime))
 	}
 	if len(m.Medallions) > 0 {
 		for _, s := range m.Medallions {
@@ -653,69 +334,20 @@ func (m *GetCabPickupCountRequest) Size() (n int) {
 	return n
 }
 
-func (m *MedallionPickupInfo) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Medallion)
-	if l > 0 {
-		n += 1 + l + sovService(uint64(l))
-	}
-	if m.Found {
-		n += 2
-	}
-	if m.Count != 0 {
-		n += 1 + sovService(uint64(m.Count))
-	}
-	return n
-}
-
 func (m *GetCabPickupCountResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	if m.StartDate != 0 {
-		n += 1 + sovService(uint64(m.StartDate))
-	}
-	if m.EndDate != 0 {
-		n += 1 + sovService(uint64(m.EndDate))
+	if m.DayTime != 0 {
+		n += 1 + sovService(uint64(m.DayTime))
 	}
 	if len(m.Info) > 0 {
 		for _, e := range m.Info {
 			l = e.Size()
 			n += 1 + l + sovService(uint64(l))
 		}
-	}
-	return n
-}
-
-func (m *DeletePickupCacheRequest) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if m.StartDate != 0 {
-		n += 1 + sovService(uint64(m.StartDate))
-	}
-	if m.EndDate != 0 {
-		n += 1 + sovService(uint64(m.EndDate))
-	}
-	return n
-}
-
-func (m *DeletePickupCacheResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if m.Count != 0 {
-		n += 1 + sovService(uint64(m.Count))
 	}
 	return n
 }
@@ -764,9 +396,9 @@ func (m *GetCabPickupCountRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field StartDate", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field DayTime", wireType)
 			}
-			m.StartDate = 0
+			m.DayTime = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowService
@@ -776,31 +408,12 @@ func (m *GetCabPickupCountRequest) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.StartDate |= int64(b&0x7F) << shift
+				m.DayTime |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
 		case 2:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field EndDate", wireType)
-			}
-			m.EndDate = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowService
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.EndDate |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 3:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Medallions", wireType)
 			}
@@ -856,130 +469,6 @@ func (m *GetCabPickupCountRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MedallionPickupInfo) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowService
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MedallionPickupInfo: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MedallionPickupInfo: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Medallion", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowService
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthService
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthService
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Medallion = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Found", wireType)
-			}
-			var v int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowService
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				v |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.Found = bool(v != 0)
-		case 3:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Count", wireType)
-			}
-			m.Count = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowService
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Count |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		default:
-			iNdEx = preIndex
-			skippy, err := skipService(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthService
-			}
-			if (iNdEx + skippy) < 0 {
-				return ErrInvalidLengthService
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
 func (m *GetCabPickupCountResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1011,9 +500,9 @@ func (m *GetCabPickupCountResponse) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field StartDate", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field DayTime", wireType)
 			}
-			m.StartDate = 0
+			m.DayTime = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowService
@@ -1023,31 +512,12 @@ func (m *GetCabPickupCountResponse) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.StartDate |= int64(b&0x7F) << shift
+				m.DayTime |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
 		case 2:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field EndDate", wireType)
-			}
-			m.EndDate = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowService
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.EndDate |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 3:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Info", wireType)
 			}
@@ -1081,169 +551,6 @@ func (m *GetCabPickupCountResponse) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipService(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthService
-			}
-			if (iNdEx + skippy) < 0 {
-				return ErrInvalidLengthService
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *DeletePickupCacheRequest) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowService
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: DeletePickupCacheRequest: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: DeletePickupCacheRequest: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field StartDate", wireType)
-			}
-			m.StartDate = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowService
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.StartDate |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 2:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field EndDate", wireType)
-			}
-			m.EndDate = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowService
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.EndDate |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		default:
-			iNdEx = preIndex
-			skippy, err := skipService(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthService
-			}
-			if (iNdEx + skippy) < 0 {
-				return ErrInvalidLengthService
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *DeletePickupCacheResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowService
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: DeletePickupCacheResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: DeletePickupCacheResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Count", wireType)
-			}
-			m.Count = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowService
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Count |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipService(dAtA[iNdEx:])

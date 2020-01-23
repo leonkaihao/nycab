@@ -4,3 +4,8 @@ package nycab;
 option (gogoproto.goproto_registration) = true;
 
 import "gogo.proto";
+
+message MedallionPickupInfo {
+  string medallion = 1 [ (gogoproto.moretags) = "db:\"medallion\"" ];
+  int64 count = 3 [ (gogoproto.moretags) = "db:\"count\"" ];
+}
