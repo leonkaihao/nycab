@@ -17,7 +17,7 @@ gen-rest:
 gen-proto:
 	rm -rf api/proto/nycab
 	docker run -v "$(PWD)/api/proto:/work" uber/prototool:latest prototool generate
-	mv api/proto/_generated api/proto/nycab
+	mv api/proto/_generated/go api/proto/nycab
 
 run-cli:
 	go run -race cmd/cli.nycab/* 
