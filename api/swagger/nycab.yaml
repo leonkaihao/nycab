@@ -79,7 +79,7 @@ definitions:
   cabPickupsCount:
     type: object
     properties:
-      medallions:
+      medallion:
         description: "car id"
         type: string
       found:

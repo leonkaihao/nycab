@@ -22,7 +22,7 @@ type CabPickupsCount struct {
 	Found bool `json:"found,omitempty"`
 
 	// car id
-	Medallions string `json:"medallions,omitempty"`
+	Medallion string `json:"medallion,omitempty"`
 }
 
 // Validate validates this cab pickups count

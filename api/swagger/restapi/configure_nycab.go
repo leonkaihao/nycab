@@ -4,6 +4,10 @@ package restapi
 
 import (
 	"crypto/tls"
+	client "github.com/leonkaihao/nycab/pkg/api"
+	"github.com/leonkaihao/nycab/pkg/cache"
+	"github.com/leonkaihao/nycab/pkg/config"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 
 	errors "github.com/go-openapi/errors"
@@ -14,6 +18,18 @@ import (
 )
 
 //go:generate swagger generate server --target ../../swagger --name Nycab --spec ../nycab.yaml --principal models.Principal --exclude-main
+
+func getConfigs() (apiConfig *config.API, err error) {
+	v, err := config.LoadConfig("api.nycab")
+	if err != nil {
+		return
+	}
+	apiConfig, err = config.GetAPIConfig(v)
+	if err != nil {
+		return
+	}
+	return
+}
 
 func configureFlags(api *operations.NycabAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }
@@ -28,7 +44,22 @@ func configureAPI(api *operations.NycabAPI) http.Handler {
 	//
 	// Example:
 	// api.Logger = log.Printf
-	hdlr := handler.NewHandler()
+	apiConfig, err := getConfigs()
+	if err != nil {
+		log.Fatalln("Cannot read config: ", err)
+	}
+	client, err := client.NewClient(apiConfig)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	c, err := cache.NewRedisCache(apiConfig)
+	if err != nil {
+		c, err = cache.NewMemCache()
+		if err != nil {
+			log.Fatalln(err)
+		}
+	}
+	hdlr := handler.NewHandler(client, c)
 	api.JSONConsumer = runtime.JSONConsumer()
 
 	api.JSONProducer = runtime.JSONProducer()

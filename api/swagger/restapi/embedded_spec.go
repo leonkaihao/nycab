@@ -110,7 +110,7 @@ func init() {
           "description": "does this car exist",
           "type": "boolean"
         },
-        "medallions": {
+        "medallion": {
           "description": "car id",
           "type": "string"
         }
@@ -236,7 +236,7 @@ func init() {
           "description": "does this car exist",
           "type": "boolean"
         },
-        "medallions": {
+        "medallion": {
           "description": "car id",
           "type": "string"
         }
