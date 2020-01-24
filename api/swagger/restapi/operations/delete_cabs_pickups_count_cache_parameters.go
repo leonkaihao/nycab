@@ -9,11 +9,7 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/errors"
-	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/go-openapi/validate"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // NewDeleteCabsPickupsCountCacheParams creates a new DeleteCabsPickupsCountCacheParams object
@@ -31,15 +27,6 @@ type DeleteCabsPickupsCountCacheParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
-
-	/*Clear to date inclusive
-	  In: query
-	*/
-	EndDate *strfmt.Date
-	/*Clear from date inclusive
-	  In: query
-	*/
-	StartDate *strfmt.Date
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -51,92 +38,8 @@ func (o *DeleteCabsPickupsCountCacheParams) BindRequest(r *http.Request, route *
 
 	o.HTTPRequest = r
 
-	qs := runtime.Values(r.URL.Query())
-
-	qEndDate, qhkEndDate, _ := qs.GetOK("endDate")
-	if err := o.bindEndDate(qEndDate, qhkEndDate, route.Formats); err != nil {
-		res = append(res, err)
-	}
-
-	qStartDate, qhkStartDate, _ := qs.GetOK("startDate")
-	if err := o.bindStartDate(qStartDate, qhkStartDate, route.Formats); err != nil {
-		res = append(res, err)
-	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-// bindEndDate binds and validates parameter EndDate from query.
-func (o *DeleteCabsPickupsCountCacheParams) bindEndDate(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-
-	// Required: false
-	// AllowEmptyValue: false
-	if raw == "" { // empty values pass all other validations
-		return nil
-	}
-
-	// Format: date
-	value, err := formats.Parse("date", raw)
-	if err != nil {
-		return errors.InvalidType("endDate", "query", "strfmt.Date", raw)
-	}
-	o.EndDate = (value.(*strfmt.Date))
-
-	if err := o.validateEndDate(formats); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// validateEndDate carries on validations for parameter EndDate
-func (o *DeleteCabsPickupsCountCacheParams) validateEndDate(formats strfmt.Registry) error {
-
-	if err := validate.FormatOf("endDate", "query", "date", o.EndDate.String(), formats); err != nil {
-		return err
-	}
-	return nil
-}
-
-// bindStartDate binds and validates parameter StartDate from query.
-func (o *DeleteCabsPickupsCountCacheParams) bindStartDate(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-
-	// Required: false
-	// AllowEmptyValue: false
-	if raw == "" { // empty values pass all other validations
-		return nil
-	}
-
-	// Format: date
-	value, err := formats.Parse("date", raw)
-	if err != nil {
-		return errors.InvalidType("startDate", "query", "strfmt.Date", raw)
-	}
-	o.StartDate = (value.(*strfmt.Date))
-
-	if err := o.validateStartDate(formats); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// validateStartDate carries on validations for parameter StartDate
-func (o *DeleteCabsPickupsCountCacheParams) validateStartDate(formats strfmt.Registry) error {
-
-	if err := validate.FormatOf("startDate", "query", "date", o.StartDate.String(), formats); err != nil {
-		return err
 	}
 	return nil
 }

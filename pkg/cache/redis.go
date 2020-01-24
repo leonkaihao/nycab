@@ -73,7 +73,10 @@ func (r *redis) Clear() error {
 	}
 	defer c.Close()
 	_, err = c.Do("FLUSHDB")
-	return fmt.Errorf("Clear failed, %v", err)
+	if err != nil {
+		return fmt.Errorf("Clear failed, %v", err)
+	}
+	return nil
 }
 
 // NewRedisCache ...

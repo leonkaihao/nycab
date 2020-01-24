@@ -3,10 +3,14 @@ package handler
 import (
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/leonkaihao/nycab/api/swagger/restapi/operations"
-	log "github.com/sirupsen/logrus"
 )
 
 func (h *handler) DeleteCache(params operations.DeleteCabsPickupsCountCacheParams) middleware.Responder {
-	log.Infof("%v, %v", params.StartDate.String(), params.EndDate.String())
+	if h.cch != nil {
+		err := h.cch.Clear()
+		if err != nil {
+			return InternalServerError("failed to clear cache," + err.Error())
+		}
+	}
 	return &operations.DeleteCabsPickupsCountCacheOK{}
 }

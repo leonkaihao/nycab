@@ -74,22 +74,6 @@ func init() {
     "/cabs/pickups/count/cache": {
       "delete": {
         "description": "Method to clear the cache",
-        "parameters": [
-          {
-            "type": "string",
-            "format": "date",
-            "description": "Clear from date inclusive",
-            "name": "startDate",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "format": "date",
-            "description": "Clear to date inclusive",
-            "name": "endDate",
-            "in": "query"
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -205,22 +189,6 @@ func init() {
     "/cabs/pickups/count/cache": {
       "delete": {
         "description": "Method to clear the cache",
-        "parameters": [
-          {
-            "type": "string",
-            "format": "date",
-            "description": "Clear from date inclusive",
-            "name": "startDate",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "format": "date",
-            "description": "Clear to date inclusive",
-            "name": "endDate",
-            "in": "query"
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"

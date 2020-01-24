@@ -9,18 +9,11 @@ import (
 	"errors"
 	"net/url"
 	golangswaggerpaths "path"
-
-	"github.com/go-openapi/strfmt"
 )
 
 // DeleteCabsPickupsCountCacheURL generates an URL for the delete cabs pickups count cache operation
 type DeleteCabsPickupsCountCacheURL struct {
-	EndDate   *strfmt.Date
-	StartDate *strfmt.Date
-
 	_basePath string
-	// avoid unkeyed usage
-	_ struct{}
 }
 
 // WithBasePath sets the base path for this url builder, only required when it's different from the
@@ -49,26 +42,6 @@ func (o *DeleteCabsPickupsCountCacheURL) Build() (*url.URL, error) {
 		_basePath = "/v1"
 	}
 	_result.Path = golangswaggerpaths.Join(_basePath, _path)
-
-	qs := make(url.Values)
-
-	var endDate string
-	if o.EndDate != nil {
-		endDate = o.EndDate.String()
-	}
-	if endDate != "" {
-		qs.Set("endDate", endDate)
-	}
-
-	var startDate string
-	if o.StartDate != nil {
-		startDate = o.StartDate.String()
-	}
-	if startDate != "" {
-		qs.Set("startDate", startDate)
-	}
-
-	_result.RawQuery = qs.Encode()
 
 	return &_result, nil
 }
