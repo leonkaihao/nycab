@@ -12,7 +12,8 @@ type Service struct {
 
 // API is what api.nycab need
 type API struct {
-	SvcURL string `json:"svcUrl"`
+	SvcURL   string `json:"svcUrl"`
+	RedisURL string `json:"redisUrl"`
 }
 
 // Cli is waht cli.nycab need
