@@ -4,33 +4,32 @@ import (
 	"context"
 	"time"
 
-	"github.com/leonkaihao/nycab/api/swagger/mapper"
-
 	"github.com/go-openapi/runtime/middleware"
 	pb "github.com/leonkaihao/nycab/api/proto/nycab"
+	"github.com/leonkaihao/nycab/api/swagger/mapper"
 	"github.com/leonkaihao/nycab/api/swagger/restapi/operations"
-	"github.com/opentracing/opentracing-go/log"
+	log "github.com/sirupsen/logrus"
 )
 
 func (h *handler) GetPickupCount(params operations.GetCabsPickupsCountParams) middleware.Responder {
 	if h.rpc == nil {
 		return PreConditionFailedError("cannot connect to rpc service")
 	}
-	if h.cch == nil {
-		return PreConditionFailedError("cannot connect to cache service")
-	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
 	defer cancel()
 
 	date, medallions, refresh := params.Date, params.Medallions, params.Refresh
-	dateInt := time.Time(date).UnixNano()
+	log.Infof("GetPickupCount Date:%v Medallions:%v Refresh:%v", date.String(), medallions, refresh)
 	var (
 		infoArr  []*pb.MedallionPickupInfo
 		notFound []string
 		err      error
 	)
-	if refresh == nil || *refresh == false {
+	if h.cch == nil {
+		log.Errorln("cannot connect to cache service")
+	}
+	if h.cch != nil && (refresh == nil || *refresh == false) {
 		infoArr, notFound, err = h.getPickupCountFromCache(ctx, medallions, time.Time(date))
 		if err != nil {
 			return InternalServerError(err.Error())
@@ -48,6 +47,7 @@ func (h *handler) GetPickupCount(params operations.GetCabsPickupsCountParams) mi
 			return InternalServerError(err.Error())
 		}
 	}
+	dateInt := time.Time(date).UnixNano()
 	respJSON := mapper.MapPickupCountResponseToJSON(medallions, &pb.GetCabPickupCountResponse{
 		DayTime: dateInt,
 		Info:    infoArr,
@@ -86,6 +86,9 @@ func (h *handler) getPickupCountFromRPC(ctx context.Context, medallions []string
 	}
 	// update cache concurrently
 	go func() {
+		if h.cch == nil {
+			return
+		}
 		err = h.cch.WithMultiData(resp.GetInfo(), date)
 		if err != nil {
 			log.Error(err)

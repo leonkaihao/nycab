@@ -8,7 +8,9 @@ package models
 import (
 	strfmt "github.com/go-openapi/strfmt"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // CabPickupsCount cab pickups count
@@ -16,17 +18,64 @@ import (
 type CabPickupsCount struct {
 
 	// found times in query
-	Count int64 `json:"count,omitempty"`
+	// Required: true
+	Count *int64 `json:"count"`
 
 	// does this car exist
-	Found bool `json:"found,omitempty"`
+	// Required: true
+	Found *bool `json:"found"`
 
 	// car id
-	Medallion string `json:"medallion,omitempty"`
+	// Required: true
+	Medallion *string `json:"medallion"`
 }
 
 // Validate validates this cab pickups count
 func (m *CabPickupsCount) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateCount(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateFound(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMedallion(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *CabPickupsCount) validateCount(formats strfmt.Registry) error {
+
+	if err := validate.Required("count", "body", m.Count); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *CabPickupsCount) validateFound(formats strfmt.Registry) error {
+
+	if err := validate.Required("found", "body", m.Found); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *CabPickupsCount) validateMedallion(formats strfmt.Registry) error {
+
+	if err := validate.Required("medallion", "body", m.Medallion); err != nil {
+		return err
+	}
+
 	return nil
 }
 

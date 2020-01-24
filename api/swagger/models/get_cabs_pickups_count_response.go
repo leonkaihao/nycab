@@ -12,16 +12,15 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // GetCabsPickupsCountResponse get cabs pickups count response
 // swagger:model getCabsPickupsCountResponse
 type GetCabsPickupsCountResponse struct {
 
-	// code
-	Code int64 `json:"code,omitempty"`
-
 	// result
+	// Required: true
 	Result []*CabPickupsCount `json:"result"`
 }
 
@@ -41,8 +40,8 @@ func (m *GetCabsPickupsCountResponse) Validate(formats strfmt.Registry) error {
 
 func (m *GetCabsPickupsCountResponse) validateResult(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.Result) { // not required
-		return nil
+	if err := validate.Required("result", "body", m.Result); err != nil {
+		return err
 	}
 
 	for i := 0; i < len(m.Result); i++ {

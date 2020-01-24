@@ -19,25 +19,26 @@ func MapPickupCountResponseToJSON(medallions []string, resp *pb.GetCabPickupCoun
 
 	result := []*models.CabPickupsCount{}
 	for _, data := range resp.Info {
+		found := true
 		elem := &models.CabPickupsCount{
-			Count:     data.GetCount(),
-			Medallion: data.GetMedallion(),
-			Found:     true,
+			Count:     &data.Count,
+			Medallion: &data.Medallion,
+			Found:     &found,
 		}
 		result = append(result, elem)
 		delete(medallionsMap, data.GetMedallion())
 	}
 	// append not existed medallions
 	for key := range medallionsMap {
+		found := false
 		elem := &models.CabPickupsCount{
-			Medallion: key,
-			Found:     false,
+			Medallion: &key,
+			Found:     &found,
 		}
 		result = append(result, elem)
 	}
 
 	return &models.GetCabsPickupsCountResponse{
-		Code:   0,
 		Result: result,
 	}
 }

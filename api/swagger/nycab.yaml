@@ -68,9 +68,9 @@ definitions:
         type: string
   getCabsPickupsCountResponse:
     type: object
+    required:
+      - result
     properties: 
-      code: 
-        type: integer
       result:
         type: array
         items:
@@ -78,6 +78,10 @@ definitions:
 
   cabPickupsCount:
     type: object
+    required:
+      - medallion
+      - found
+      - count
     properties:
       medallion:
         description: "car id"

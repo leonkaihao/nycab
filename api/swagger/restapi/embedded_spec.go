@@ -101,6 +101,11 @@ func init() {
   "definitions": {
     "cabPickupsCount": {
       "type": "object",
+      "required": [
+        "medallion",
+        "found",
+        "count"
+      ],
       "properties": {
         "count": {
           "description": "found times in query",
@@ -129,10 +134,10 @@ func init() {
     },
     "getCabsPickupsCountResponse": {
       "type": "object",
+      "required": [
+        "result"
+      ],
       "properties": {
-        "code": {
-          "type": "integer"
-        },
         "result": {
           "type": "array",
           "items": {
@@ -227,6 +232,11 @@ func init() {
   "definitions": {
     "cabPickupsCount": {
       "type": "object",
+      "required": [
+        "medallion",
+        "found",
+        "count"
+      ],
       "properties": {
         "count": {
           "description": "found times in query",
@@ -255,10 +265,10 @@ func init() {
     },
     "getCabsPickupsCountResponse": {
       "type": "object",
+      "required": [
+        "result"
+      ],
       "properties": {
-        "code": {
-          "type": "integer"
-        },
         "result": {
           "type": "array",
           "items": {

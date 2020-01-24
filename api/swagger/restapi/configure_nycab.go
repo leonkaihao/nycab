@@ -54,9 +54,10 @@ func configureAPI(api *operations.NycabAPI) http.Handler {
 	}
 	c, err := cache.NewRedisCache(apiConfig)
 	if err != nil {
+		log.Errorf("failed to connect redis, %v, use mem instead", err)
 		c, err = cache.NewMemCache()
 		if err != nil {
-			log.Fatalln(err)
+			log.Errorf("failed to connect mem, %v, cache disabled", err)
 		}
 	}
 	hdlr := handler.NewHandler(client, c)
