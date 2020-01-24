@@ -13,9 +13,6 @@ func (r *Server) DoGetCabPickupCount(ctx context.Context, req *pb.GetCabPickupCo
 		return nil, errNullRequest
 	}
 	dayTime := time.Unix(0, req.DayTime)
-	durDay := time.Hour * 24
-	// range is the beginning of start date to the end of end date.
-	dayTime = dayTime.Truncate(durDay).Add(durDay)
 	ret, err := r.db.GetPickupCount(ctx, req.GetMedallions(), dayTime)
 	if err != nil {
 		return nil, err

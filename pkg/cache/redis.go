@@ -1,6 +1,7 @@
 package cache
 
 import (
+	"fmt"
 	"time"
 
 	pb "github.com/leonkaihao/nycab/api/proto/nycab"
@@ -32,5 +33,5 @@ func (r *redis) Clear() error {
 
 // NewRedisCache ...
 func NewRedisCache(conf *config.API) (Cache, error) {
-	return &redis{}, nil
+	return nil, fmt.Errorf("not implement")
 }

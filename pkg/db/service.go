@@ -24,8 +24,8 @@ func (svc *service) GetPickupCount(ctx context.Context, medallions []string, tm 
 	if len(medallions) == 0 {
 		return nil, errEmptyMedallions
 	}
-	dateTimeFormat := "2006-01-02 15:04:05"
-	tmStart, tmEnd := tm.Format(dateTimeFormat), tm.Add(time.Hour*24).Format(dateTimeFormat)
+	dateFormat := "2006-01-02"
+	tmStart, tmEnd := tm.Format(dateFormat)+" 00:00:00", tm.Add(time.Hour*24).Format(dateFormat)+" 00:00:00"
 
 	infoArr := []*pb.MedallionPickupInfo{}
 	schemaCount := "select medallion, COUNT(medallion) as count from cab_trip_data where medallion in ("
@@ -36,7 +36,7 @@ func (svc *service) GetPickupCount(ctx context.Context, medallions []string, tm 
 	}
 	schemaCount += ") and pickup_datetime>='" + tmStart + "' and pickup_datetime<'" + tmEnd
 	schemaCount += "' group by medallion;"
-
+	log.Infof("GetPickupCount: schema %v", schemaCount)
 	log.Infof("GetPickupCount: medallions %+v from %v", medallions, tmStart)
 	err := svc.db.Select(&infoArr, schemaCount)
 	if err != nil {

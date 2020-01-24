@@ -1,6 +1,7 @@
 package cache
 
 import (
+	"fmt"
 	"time"
 
 	pb "github.com/leonkaihao/nycab/api/proto/nycab"
@@ -31,5 +32,5 @@ func (m *mem) Clear() error {
 
 // NewMemCache ...
 func NewMemCache() (Cache, error) {
-	return &mem{}, nil
+	return nil, fmt.Errorf("not implement")
 }
