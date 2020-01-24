@@ -1,0 +1,47 @@
+package cli
+
+import (
+	"fmt"
+	"strings"
+)
+
+// Parser ...
+type Parser interface {
+	Parse(cmd string) error
+}
+
+type parser struct {
+	cmds []*Cmdline
+}
+
+// Parse current command input
+func (p *parser) Parse(cmd string) error {
+	args := strings.Fields(cmd)
+	if len(args) == 0 {
+		return fmt.Errorf("null command")
+	}
+	for _, cmd := range p.cmds {
+		if cmd.Cmd == args[0] {
+			resp, err := cmd.Handler.Handle(args[1:])
+			if err != nil {
+				return err
+			}
+			fmt.Println(resp)
+			return nil
+		}
+	}
+	return fmt.Errorf("unknown command %v", args[0])
+}
+
+// NewParser ...
+func NewParser() Parser {
+	cmds := []*Cmdline{
+		NewCountCmd(),
+		NewCacheCmd(),
+		NewQuitCmd(),
+	}
+
+	helpCmd := NewHelpCmd(cmds)
+	cmds = append(cmds, helpCmd)
+	return &parser{cmds}
+}
