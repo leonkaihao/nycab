@@ -1,7 +1,11 @@
 # @name getPickupCount
-GET http://localhost:10086/v1/cabs/pickups/count?date=2019-01-01&medallions=123,456,789 http/2.0
+GET http://localhost:10086/v1/cabs/pickups/count?date=2013-12-01&medallions=40E882BDD06233B5C99288FFED13F6A1,8F4D67B9A0D79E4796CD63DC061A8E66 http/1.0
+
+###
+# @name getPickupCountRefresh
+GET http://localhost:10086/v1/cabs/pickups/count?date=2013-12-01&medallions=40E882BDD06233B5C99288FFED13F6A1,8F4D67B9A0D79E4796CD63DC061A8E66&refresh=true http/1.0
 
 ###
 
 # @name deleteCache
-DELETE http://localhost:10086/v1/cabs/pickups/count/cache?startDate=2019-10-10&endDate=2019-11-11 http/2.0
+DELETE http://localhost:10086/v1/cabs/pickups/count/cache http/2.0

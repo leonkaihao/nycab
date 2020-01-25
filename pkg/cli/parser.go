@@ -3,6 +3,8 @@ package cli
 import (
 	"fmt"
 	"strings"
+
+	"github.com/leonkaihao/nycab/pkg/config"
 )
 
 // Parser ...
@@ -34,10 +36,10 @@ func (p *parser) Parse(cmd string) error {
 }
 
 // NewParser ...
-func NewParser() Parser {
+func NewParser(conf *config.Cli) Parser {
 	cmds := []*Cmdline{
-		NewCountCmd(),
-		NewCacheCmd(),
+		NewCountCmd(conf),
+		NewCacheCmd(conf),
 		NewQuitCmd(),
 	}
 
