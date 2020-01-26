@@ -1,0 +1,5 @@
+service:
+  dbHost: localhost
+  dbPort: 3306
+  userName: root
+  password: mytest

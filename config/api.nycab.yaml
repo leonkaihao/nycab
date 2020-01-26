@@ -1,0 +1,4 @@
+api:
+  svcUrl: localhost:8081 
+  redisUrl: localhost:6379
+
