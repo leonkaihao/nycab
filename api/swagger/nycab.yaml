@@ -24,12 +24,14 @@ paths:
       description: "Query how many trips a particular cab (medallion) has made given a particular pickup date."
       parameters:
         - name: medallions
+          description: "cab ids"
           in: query
           required: true
           type: array
           items:
             type: string
         - name: date
+          description: "date string, like 2001-01-13"
           in: query
           required: true
           type: string
@@ -71,13 +73,13 @@ definitions:
       - count
     properties:
       medallion:
-        description: "car id"
+        description: "cab id"
         type: string
       found:
-        description: "does this car exist"
+        description: "does this cab exist"
         type: boolean
       count:
-        description: "found times in query"
+        description: "found items count in a query"
         type: integer
 
          

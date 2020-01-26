@@ -1,4 +1,4 @@
-.PHONY: all clean
+.PHONY: all clean test
 
 build:
 	rm -rf out > /dev/null
@@ -27,6 +27,7 @@ run-api:
 
 run-service:
 	go run -race cmd/service.nycab/* 
-
+test:
+	go test ./...
 clean:
 	@rm -rf "_generated/" ;	

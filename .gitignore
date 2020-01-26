@@ -15,5 +15,5 @@
 # vendor/
 out/*
 docs/*.pdf
-test/testdata/*
 .DS_Store
+.vscode
