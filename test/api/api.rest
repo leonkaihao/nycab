@@ -1,4 +1,4 @@
-# @name getPickupCount
+# @name getPickupCountWithoutRefresh
 GET http://localhost:10086/v1/cabs/pickups/count?date=2013-12-01&medallions=40E882BDD06233B5C99288FFED13F6A1,8F4D67B9A0D79E4796CD63DC061A8E66 http/1.0
 
 ###

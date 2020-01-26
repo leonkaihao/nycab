@@ -1,0 +1,7 @@
+testField:
+  intVal: 11
+  strVal: hello
+  arrVal:
+    - item1
+    - item2
+    - item3
