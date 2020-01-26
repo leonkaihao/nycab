@@ -7,7 +7,6 @@ type help struct {
 }
 
 func (c *help) Handle(args []string) (resp string, err error) {
-
 	for _, cmd := range c.Cmds {
 		resp += fmt.Sprintf("%v\n\tDescription:\t%v\n\tExample:\t%v\n", cmd.Cmd, cmd.Description, cmd.Example)
 	}

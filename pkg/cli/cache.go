@@ -17,6 +17,9 @@ func (c *cache) Handle(args []string) (resp string, err error) {
 		errMsg := "config error, failed to connect to api service"
 		return errMsg, errors.New(errMsg)
 	}
+	if len(args) != 1 || args[0] != "clean" {
+		return "", errors.New("only allow clean")
+	}
 	url := "http://" + c.conf.APIHost + ":" + c.conf.APIPort + "/v1/cabs/pickups/count/cache"
 	req, err := http.NewRequest("DELETE", url, nil)
 	if err != nil {

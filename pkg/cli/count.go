@@ -48,6 +48,7 @@ func reassembleArgs(args []string) string {
 	for i, arg := range args {
 		kv := strings.Split(arg, "=")
 		if len(kv) != 2 {
+			log.Errorf("illegal format, arg %v, ignored", arg)
 			continue // ignore illegal args
 		}
 		switch kv[0] {
