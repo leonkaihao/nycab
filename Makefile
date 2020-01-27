@@ -19,6 +19,19 @@ gen-proto:
 	docker run -v "$(PWD)/api/proto:/work" uber/prototool:latest prototool generate
 	mv api/proto/_generated/go api/proto/nycab
 
+run-infra:
+	cd deployments/local_stack;\
+	echo "DBDIR=$(HOME)/data/mysql">.env; \
+	docker-compose up -d
+
+stop-infra:
+	cd deployments/local_stack;\
+	docker-compose down
+
+load-data:
+	cd test/testdata/db;  \
+	unzip -o ny_cab_data_cab_trip_data_full.sql.zip; \
+	docker exec -i local_stack_db_1 mysql -uroot -p"mytest" nycab < ny_cab_data_cab_trip_data_full.sql
 run-cli:
 	go run -race cmd/cli.nycab/* 
 

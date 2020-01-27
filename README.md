@@ -22,27 +22,6 @@ particular pickup date ( using ​pickup_datetime​). Only consider the date an
 5. Support interactive command line tool to acess API service.
 6. Support independent RPC service to provide access to database.
 
-# Setup Environment
-## Golang tools
-You can find more information on https://golang.org/dl/
-## MySQL server
-
-Create a local mysql service using docker:
-```sh
-docker pull mysql 
-docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=mytest -p 3306:3306 -v $HOME/data/mysql:/var/lib/mysql -d mysql
-```
-Then it is time to import your sql file to database.
-I use mysql workbench(https://www.mysql.com/products/workbench/) to connect local MySQL database and import data.
-
-## Redis server(optional) 
-Data cache to Redis is implemented by api.nycab service. But you still can choose whether to use Redis for caching accessed data. If you don't use Redis(by clearing Redis config in api.nycab.yaml or not install Redis locally), service will select in-memory cache instead.
-
-Create a local redis service using docker:
-```sh
-docker run -p 6379:6379 -d redis
-```
-
 # About Infrastructure
 This challenge implement 3 main components:  
 1. cli.nycab (Commandline tool) 
@@ -82,25 +61,36 @@ This project structure is according to Go project convention (https://github.com
 |pkg/db|Belongs to service.nycab. MySQL data accessing interface and implementation.|
 |pkg/rpc|Belongs to service.nycab. RPC(protobuf) interfaces implementation.|
 |test/api|RESTful api test script. In order to use them to test, you need to install VSCode and RestClient plugin.|
-|Makefile|This file support:<br>1. Build the whole project binaries in 'out' folder('make build').<br>2. Generate Go API files from swagger yaml file or protobuf file('make gen-rest' and 'make gen-proto'). <br>3. Run each service or client('make run-service' and 'make run-api' and 'make run-cli').<br>4. Run Basic Unit Test('make test').|
+|Makefile|This file support:<br>1. Build the whole project binaries in 'out' folder('make build').<br>2. Generate Go API files from swagger yaml file or protobuf file('make gen-rest' and 'make gen-proto'). <br>3. Run each service or client('make run-service' and 'make run-api' and 'make run-cli').<br>4. Run or stop infrastructure, loading testing data('make run-infra' and 'make stop-infra' and 'make load-data').<br>5. Run Basic Unit Test('make test').|
 
 # Run the whole stack
 1. Change directory to the root of the project.
 2. Start MySQL and Redis service.
-3. Import sql file to database.
-If you use local installed MySQL, use command below.
+```sh
+make run-infra
 ```
-mysql -u username –-password=your_password database_name < file.sql 
+This will start redis service and MySQL service with "nycab" database.  
+After finishing using the infrastructure, remember to stop them.
+```sh
+make stop-infra
 ```
-or use MySQL workbench to import data.
 
-4. Run each command in sequence in a seperate terminal
+3. Import sql file to database.
+```sh
+make load-data
 ```
+Script code will extract sql file from "test/testdata/db/ny_cab_data_cab_trip_data_full.sql.zip".  
+And then load into "nycab" database.  
+
+4. At last, run each command in sequence in a seperate terminal.
+```sh
 make run-service
 make run-api
 make run-cli
 ```
-# cli.nycab Command line help
+
+# How to use cli.nycab Command line
+After running cli.nycab, type "help" for more details.
 ```sh
 > help
 count

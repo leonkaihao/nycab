@@ -6,8 +6,13 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: mytest
+      MYSQL_DATABASE: nycab
     ports:
       - 3306:3306
     volumes:
-      - "${HOSTDIR}:/var/lib/mysql"
-  
+      - "${DBDIR}:/var/lib/mysql"
+  redis:
+    image: redis
+    restart: always
+    ports:
+      - 6379:6379
