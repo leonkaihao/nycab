@@ -32,6 +32,10 @@ load-data:
 	cd test/testdata/db;  \
 	unzip -o ny_cab_data_cab_trip_data_full.sql.zip; \
 	docker exec -i local_stack_db_1 mysql -uroot -p"mytest" nycab < ny_cab_data_cab_trip_data_full.sql
+
+remove-db:
+	rm -Rf $(HOME)/data/mysql
+
 run-cli:
 	go run -race cmd/cli.nycab/* 
 

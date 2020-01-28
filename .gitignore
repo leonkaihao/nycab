@@ -18,3 +18,4 @@ docs/*.pdf
 .DS_Store
 .vscode
 deployments/local_stack/.env
+test/testdata/db/*.sql
