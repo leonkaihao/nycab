@@ -61,6 +61,7 @@ This project structure is according to Go project convention (https://github.com
 |pkg/db|Belongs to service.nycab. MySQL data accessing interface and implementation.|
 |pkg/rpc|Belongs to service.nycab. RPC(protobuf) interfaces implementation.|
 |test/api|RESTful api test script. In order to use them to test, you need to install VSCode and RestClient plugin.|
+|test/testdata|Data for tests or examples use.|
 |Makefile|This file support:<br>1. Build the whole project binaries in 'out' folder('make build').<br>2. Generate Go API files from swagger yaml file or protobuf file('make gen-rest' and 'make gen-proto'). <br>3. Run each service or client('make run-service' and 'make run-api' and 'make run-cli').<br>4. Run or stop infrastructure, loading testing data('make run-infra' and 'make stop-infra' and 'make load-data').<br>5. Run Basic Unit Test('make test').|
 
 # Run the whole stack
